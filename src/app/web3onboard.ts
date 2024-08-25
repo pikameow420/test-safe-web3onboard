@@ -57,26 +57,8 @@ export default init({
     logo: "<svg></svg>",
     // The description of your app
     description: "Demo app for Onboard V2",
-    // The url to a getting started guide for app
-    gettingStartedGuide: "http://mydapp.io/getting-started",
     // url that points to more information about app
     explore: "http://mydapp.io/about",
-    // if your app only supports injected wallets and when no injected wallets detected, recommend the user to install some
-    recommendedInjectedWallets: [
-      {
-        // display name
-        name: "MetaMask",
-        // link to download wallet
-        url: "https://metamask.io",
-      },
-      { name: "Coinbase", url: "https://wallet.coinbase.com/" },
-    ],
-    // Optional - but allows for dapps to require users to agree to TOS and privacy policy before connecting a wallet
-    agreement: {
-      version: "1.0.0",
-      termsUrl: "https://www.blocknative.com/terms-conditions",
-      privacyUrl: "https://www.blocknative.com/privacy-policy",
-    },
   },
   // example customising copy
   // i18n: {
