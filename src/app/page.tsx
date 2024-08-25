@@ -3,19 +3,8 @@
 import Image from 'next/image'
 import { useConnectWallet } from '@web3-onboard/react'
 import { ethers } from 'ethers'
-
-const buttonStyles = {
-  borderRadius: '6px',
-  background: '#111827',
-  border: 'none',
-  fontSize: '18px',
-  fontWeight: '600',
-  cursor: 'pointer',
-  color: 'white',
-  padding: '14px 12px',
-  marginTop: '40px',
-  fontFamily: 'inherit'
-}
+import ConnectButton from './components/connect-button'
+import BatchTransaction from './components/batch-transaction'
 
 export default function Home() {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
@@ -34,13 +23,13 @@ export default function Home() {
           Welcome to this demo of{'Safe Apps Integration with Web3-Onboard'}
           <a href="https://onboard.blocknative.com"> Web3-Onboard!</a>
         </h1>
-        <button
-          style={buttonStyles}
-          disabled={connecting}
-          onClick={() => (wallet ? disconnect(wallet) : connect())}
-        >
-          {connecting ? 'Connecting' : wallet ? 'Disconnect' : 'Connect'}
-        </button>
+        <ConnectButton
+          connecting={connecting}
+          wallet={wallet}
+          connect={connect}
+          disconnect={disconnect}
+        />
+       {wallet && <BatchTransaction wallet={wallet} />}
       </main>
 
       <footer>

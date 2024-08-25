@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@safe-global/safe-apps-react-sdk": "^4.7.2",
     "@web3-onboard/gnosis": "^2.3.2",
     "@web3-onboard/injected-wallets": "^2.11.2",
     "@web3-onboard/react": "^2.9.2",
