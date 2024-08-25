@@ -9,7 +9,7 @@ const INFURA_KEY = process.env.NEXT_PUBLIC_INFURA_ID;
 const injected = injectedModule();
 
 const safe = safeModule({
-  whitelistedDomains: [/app\.safe\.global$/, /coinshift\.global$/],
+  whitelistedDomains: [/^https:\/\/.*\.safe\.global$/,/^https:\/\/.*\.coinshift\.global$/],
 });
 
 export default init({

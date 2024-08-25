@@ -10,7 +10,7 @@ const nextConfig = {
     async headers() {
         return [
             {
-                source: '/:path*',  // This matches all paths
+                source: '/:path*',  
                 headers: [
                     {
                         key: 'Access-Control-Allow-Origin',
