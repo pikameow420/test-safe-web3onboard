@@ -1,33 +1,63 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useSafeAppsSDK } from '@safe-global/safe-apps-react-sdk'
-import { WalletState } from '@web3-onboard/core'
-import { useSendUSDC } from '../useSendUSDC'
+import { useState } from "react";
+import { useSafeAppsSDK } from "@safe-global/safe-apps-react-sdk";
+import { WalletState } from "@web3-onboard/core";
+import { useSendUSDC } from "../useSendUSDC";
+import { useSetChain } from "@web3-onboard/react";
+
+
 
 interface BatchTransactionProps {
-  wallet?: WalletState
+  wallet?: WalletState;
 }
 
 const BatchTransaction: React.FC<BatchTransactionProps> = ({ wallet }) => {
-  const { sdk } = useSafeAppsSDK()
-  const [usdcAmount, setUsdcAmount] = useState('')
-  const [txHash, setTxHash] = useState<string | null>(null)
-  const {sendUSDC, isPending, isError} = useSendUSDC()
-  const [safeTxHash, setSafeTxHash] = useState<string | null>(null)
+  const { sdk } = useSafeAppsSDK();
+  const [usdcAmount, setUsdcAmount] = useState("");
+  const [txHash, setTxHash] = useState<string | null>(null);
+  const { sendUSDC, isPending, isError } = useSendUSDC();
+  const [safeTxHash, setSafeTxHash] = useState<string | null>(null);
+  const [{connectedChain, chains}] = useSetChain()
+
+  // const getBlockExplorerInfo = (chain: Chain, txHash: string): { txLink: string | null } => {
+  //   const chain = chains.find((c: Chain) => c.id === chainId);
+  //   if (!chain || !chain.blockExplorers || !chain.blockExplorers.default) {
+  //     return { url: null, txLink: null };
+  //   }
+
+  //   const explorerUrl = chain.blockExplorers.default.url;
+  //   return {
+  //     txLink: `${explorerUrl}/tx/${txHash}`
+  //   };
+  // };
+
 
 
   const handleSend = async () => {
-      try {
-      const transactions = await sendUSDC(usdcAmount)
+    try {
+      const transactions = await sendUSDC(usdcAmount);
       const { safeTxHash } = await sdk.txs.send({
         txs: transactions,
-      })
-      console.log('Transaction sent:', safeTxHash)
-      setTxHash(safeTxHash)
+      });
+      console.log("Transaction sent:", safeTxHash);
+      setTxHash(safeTxHash);
     } catch (err) {
-      console.error('Failed to send transaction:', err)
+      console.error("Failed to send transaction:", err);
     }
+  };
+
+  const getBlockExplorerLink = (safeTxHash: string): string | null => {
+
+    const chain = chains.find((c) => c.id === connectedChain?.id)
+
+    if (!chain) return null
+
+    const blockExplorerUrl = chain.blockExplorerUrl
+    if (!blockExplorerUrl) return null
+
+    return `${blockExplorerUrl}/tx/${safeTxHash}`
+     
   }
 
   return (
@@ -48,13 +78,13 @@ const BatchTransaction: React.FC<BatchTransactionProps> = ({ wallet }) => {
           onClick={handleSend}
           disabled={isPending || !usdcAmount}
         >
-          {isPending ? 'Sending...' : 'Send USDC'}
+          {isPending ? "Sending..." : "Send USDC"}
         </button>
       </div>
-      {/* {txHash && (
+      {safeTxHash && (
         <div className="mt-4">
           <a
-            href={getBlockExplorerLink(txHash) || '#'}
+            href={getBlockExplorerLink(safeTxHash) || '#'}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-500 hover:underline"
@@ -62,10 +92,10 @@ const BatchTransaction: React.FC<BatchTransactionProps> = ({ wallet }) => {
             View transaction on block explorer
           </a>
         </div>
-      )} */}
+      )}
       {isError && <div className="text-red-500 mt-4">Error sending USDC</div>}
     </div>
-  )
-}
+  );
+};
 
-export default BatchTransaction
+export default BatchTransaction;

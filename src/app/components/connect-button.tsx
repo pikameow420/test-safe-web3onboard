@@ -13,7 +13,7 @@ interface ConnectButtonProps {
 const ConnectButton: React.FC<ConnectButtonProps> = ({ connecting, wallet, connect, disconnect }) => {
   return (
     <button
-      className="rounded-md bg-gray-900 text-white text-lg font-semibold py-3 px-4 mt-10 cursor-pointer font-inherit disabled:opacity-50 disabled:cursor-not-allowed"
+      className="rounded-full bg-blue-500 text-white text-lg font-semibold py-3 px-6 mt-10 cursor-pointer font-inherit disabled:opacity-50 disabled:cursor-not-allowed"
       disabled={connecting}
       onClick={() => (wallet ? disconnect(wallet) : connect())}
     >
