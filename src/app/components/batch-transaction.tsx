@@ -20,19 +20,6 @@ const BatchTransaction: React.FC<BatchTransactionProps> = ({ wallet }) => {
   const [safeTxHash, setSafeTxHash] = useState<string | null>(null);
   const [{connectedChain, chains}] = useSetChain()
 
-  // const getBlockExplorerInfo = (chain: Chain, txHash: string): { txLink: string | null } => {
-  //   const chain = chains.find((c: Chain) => c.id === chainId);
-  //   if (!chain || !chain.blockExplorers || !chain.blockExplorers.default) {
-  //     return { url: null, txLink: null };
-  //   }
-
-  //   const explorerUrl = chain.blockExplorers.default.url;
-  //   return {
-  //     txLink: `${explorerUrl}/tx/${txHash}`
-  //   };
-  // };
-
-
 
   const handleSend = async () => {
     try {
