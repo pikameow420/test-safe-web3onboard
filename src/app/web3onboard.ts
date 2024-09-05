@@ -7,7 +7,7 @@ import { init } from "@web3-onboard/react";
 const injected = injectedModule();
 
 const safe = safeModule({
-  whitelistedDomains: [/^https:\/\/.*\.safe\.global$/,/^https:\/\/.*\.coinshift\.global$/,     /^http:\/\/localhost:3000$/],
+  whitelistedDomains: [/^https:\/\/.*\.safe\.global$/,/^https:\/\/.*\.coinshift\.global$/,/^http:\/\/localhost:5173$/],
 });
 
 

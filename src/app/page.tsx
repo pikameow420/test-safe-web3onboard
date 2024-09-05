@@ -17,7 +17,7 @@ export default function Home() {
     if (safe) {
       const connectToSafe = async () => {
         try {
-           const wallets = await web3Onboard.connectWallet({
+           const wallets = await connect({
             autoSelect: { label: 'Safe', disableModals: true }
           });
           console.log("Connected to Safe:", wallets);
@@ -29,7 +29,7 @@ export default function Home() {
         };
         connectToSafe()
     }
-  }, [safe]);
+  }, [safe, connect]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
