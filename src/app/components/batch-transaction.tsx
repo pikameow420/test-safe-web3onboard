@@ -8,11 +8,11 @@ import { useSetChain } from "@web3-onboard/react";
 
 
 
-interface BatchTransactionProps {
-  wallet?: WalletState;
-}
+// interface BatchTransactionProps {
+//   wallet?: WalletState;
+// }
 
-const BatchTransaction: React.FC<BatchTransactionProps> = ({ wallet }) => {
+const BatchTransaction: React.FC = () => {
   const { sdk } = useSafeAppsSDK();
   const [usdcAmount, setUsdcAmount] = useState("");
   const [txHash, setTxHash] = useState<string | null>(null);

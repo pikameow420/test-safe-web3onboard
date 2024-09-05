@@ -7,10 +7,12 @@ import { init } from "@web3-onboard/react";
 const injected = injectedModule();
 
 const safe = safeModule({
-  whitelistedDomains: [/^https:\/\/.*\.safe\.global$/,/^https:\/\/.*\.coinshift\.global$/],
+  whitelistedDomains: [/^https:\/\/.*\.safe\.global$/,/^https:\/\/.*\.coinshift\.global$/,     /^http:\/\/localhost:3000$/],
 });
 
-export default init({
+
+
+const web3Onboard = init({
   // An array of wallet modules that you would like to be presented to the user to select from when connecting a wallet.
   wallets: [injected, safe],
   // An array of Chains that your app supports
@@ -58,9 +60,31 @@ export default init({
     // Optional wide format logo (ie icon and text) to be displayed in the sidebar of connect modal. Defaults to icon if not provided
     logo: "<svg></svg>",
     // The description of your app
-    description: "Demo app for Onboard V2",
+    description: "Demo app for Web3-Onboard and Safe Apps SDK",
     // url that points to more information about app
     explore: "http://mydapp.io/about",
   },
 
+
+
 });
+
+
+console.log("Available wallet modules:", web3Onboard.state.get().wallets);
+
+
+// Function to attempt Safe connection
+const connectToSafe = async () => {
+  try {
+    const wallets = await web3Onboard.connectWallet({
+      autoSelect: { label: 'Safe', disableModals: true }
+    });
+    console.log("Connected to Safe:", wallets);
+    return wallets;
+  } catch (error) {
+    console.error("Failed to connect to Safe:", error);
+    return null;
+  }
+};
+
+export { web3Onboard, connectToSafe };

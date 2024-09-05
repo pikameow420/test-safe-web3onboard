@@ -1,21 +1,25 @@
 'use client'
 
-import Image from 'next/image'
+import { useEffect } from 'react'
 import { useConnectWallet } from '@web3-onboard/react'
-import { ethers } from 'ethers'
 import ConnectButton from './components/connect-button'
 import BatchTransaction from './components/batch-transaction'
+import { web3Onboard, connectToSafe } from './web3onboard'
 
 export default function Home() {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
 
-  // create an ethers provider
-  let ethersProvider
+  useEffect(() => {
+    // Log available wallets on component mount
+    console.log("Available wallets:", web3Onboard.state.get().wallets);
 
-  if (wallet) {
-    ethersProvider = new ethers.BrowserProvider(wallet.provider, 'any')
-  }
-  
+    // Check if we're in a Safe environment and attempt to connect
+    if (window.parent !== window) {
+      console.log('Potentially running in a Safe App');
+      connectToSafe();
+    }
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
@@ -28,7 +32,7 @@ export default function Home() {
           connect={connect}
           disconnect={disconnect}
         />
-       {wallet && <BatchTransaction wallet={wallet} />}
+        {wallet && <BatchTransaction />}
       </main>
     </div>
   )

@@ -1,8 +1,7 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import { WalletState } from '@web3-onboard/core'
-import { useSafeAppsSDK } from '@safe-global/safe-apps-react-sdk'
 
 interface ConnectButtonProps {
   connecting: boolean
@@ -12,30 +11,13 @@ interface ConnectButtonProps {
 }
 
 const ConnectButton: React.FC<ConnectButtonProps> = ({ connecting, wallet, connect, disconnect }) => {
-  const { sdk, safe } = useSafeAppsSDK()
-
-  useEffect(() => {
-    const autoConnect = async () => {
-      if (!wallet && safe.safeAddress) {
-        try {
-          await connect()
-        } catch (error) {
-          console.error('Failed to auto-connect:', error)
-        }
-      }
-    }
-
-    autoConnect()
-  }, [wallet, safe.safeAddress, connect])
-  
   return (
     <button
       className="rounded-full bg-blue-500 text-white text-lg font-semibold py-3 px-6 mt-10 cursor-pointer font-inherit disabled:opacity-50 disabled:cursor-not-allowed"
-      disabled={connecting}
       onClick={() => (wallet ? disconnect(wallet) : connect())}
     >
-      {connecting ? 'Connecting' : wallet ? 'Disconnect' : 'Connect'}
-    </button>
+      {wallet ? `${wallet.accounts[0].address.slice(0, 6)}...${wallet.accounts[0].address.slice(-4)}` : 'Connect'}
+      </button>
   )
 }
 
