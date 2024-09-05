@@ -1,13 +1,29 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useConnectWallet } from '@web3-onboard/react'
+import { useConnectWallet, useWallets } from '@web3-onboard/react'
 import ConnectButton from './components/connect-button'
 import BatchTransaction from './components/batch-transaction'
-import { web3Onboard, connectToSafe } from './web3onboard'
+import { web3Onboard } from './web3onboard'
 
 export default function Home() {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
+  const allWallets = web3Onboard.state.get().wallets
+  // Function to attempt Safe connection
+  const connectToSafe = async () => {
+  try {
+    console.log("Available wallet modules:", allWallets);
+    console.log(allWallets.map((wallet)=>wallet?.label))
+    const wallets = await web3Onboard.connectWallet({
+      autoSelect: { label: 'safe', disableModals: true }
+    });
+    console.log("Connected to Safe:", wallets);
+    return wallets;
+  } catch (error) {
+    console.error("Failed to connect to Safe:", error);
+    return null;
+  }
+  };
 
   useEffect(() => {
     // Log available wallets on component mount
@@ -18,7 +34,7 @@ export default function Home() {
       console.log('Potentially running in a Safe App');
       connectToSafe();
     }
-  }, []);
+  }, [connectToSafe]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">

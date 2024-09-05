@@ -73,18 +73,6 @@ const web3Onboard = init({
 console.log("Available wallet modules:", web3Onboard.state.get().wallets);
 
 
-// Function to attempt Safe connection
-const connectToSafe = async () => {
-  try {
-    const wallets = await web3Onboard.connectWallet({
-      autoSelect: { label: 'Safe', disableModals: true }
-    });
-    console.log("Connected to Safe:", wallets);
-    return wallets;
-  } catch (error) {
-    console.error("Failed to connect to Safe:", error);
-    return null;
-  }
-};
 
-export { web3Onboard, connectToSafe };
+
+export { web3Onboard };
